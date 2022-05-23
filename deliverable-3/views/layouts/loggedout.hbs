@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Google Icons -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+		rel="stylesheet">
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/styles.css">
+
+	<title>MyGlucose</title>
+
+<style>
+body { 
+  background: url(http://source.unsplash.com/collection/1163179/) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#content main .table-data {
+	display: flex;
+	flex-wrap: wrap;
+	grid-gap: 24px;
+	margin-top: 24px;
+	width: 100%;
+	color: var(--dark);
+	opacity: 0.85;
+}
+
+</style>
+</head>
+<body>
+
+	<!-- CONTENT -->
+	<section id="content">
+		<!-- NAVBAR -->
+		<nav>
+			<div class="logo">
+				<a href="/"><img src="/img/myglucosewhite.svg" alt="MyGlucose Logo"></a>
+			</div>
+			<div class="hamburger">
+				<div class="bars1"></div>
+				<div class="bars2"></div>
+				<div class="bars3"></div>
+			</div>
+			<ul class="nav-links">
+				<li><a href="/">Home</a></li>
+				<li><a href="/aboutus">About Us</a></li>
+				<li><a href="/aboutdiabetes">About Diabetes</a></li>
+				<li><form action="/auth">
+			<button class="login-button"><i class='bx material-icons'>login</i></button>
+		</form></li>
+			</ul>
+		</nav>
+
+		<!-- MAIN -->
+		<br><br><br>
+		<main>
+			{{{body}}}
+
+		</main>
+		<!-- MAIN -->
+	</section>
+	<!-- CONTENT -->
+	<br>
+	
+
+	<script src="/js/patientScript.js"></script>
+	
+</body>
+</html>

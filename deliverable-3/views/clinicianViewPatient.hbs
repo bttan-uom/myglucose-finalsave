@@ -1,0 +1,184 @@
+<div class="head-title">
+    <div class="left">
+        <ul class="breadcrumb">
+            <li>
+                <pre><a class="active generic-button" href="/clinician/patients">Patients</a></pre>
+            </li>
+            <li><i class='bx material-icons'>chevron_right</i></li>
+            {{#with patient}}
+            <li>
+                <pre><a class="active generic-button" href="#">View Patient: {{this.first_name}} {{this.last_name}}</a></pre>
+            </li>
+            {{/with}}
+        </ul>
+        <br>
+        {{#with patient}}
+        <h1>View Patient: {{this.first_name}} {{this.last_name}}</h1>
+        {{/with}}
+    </div>
+    	<a href="/clinician/patients/edit?user={{patient._id}}" class="btn-download">
+	<i class='bx material-icons'>edit</i>
+	<span style='font-size:13px' class="text">Edit Information</span>
+</a>
+    	
+
+</div>
+
+
+<ul class="box-info">
+    <li>
+        <i class='bx material-icons'>today</i>
+        <span class="text">
+            <h3>{{getCurrentDate}}</h3>
+            <p>Current Date</p>
+        </span>
+    </li>
+    <li>
+        <i style="background: var(--light-orange); color: var(--orange);" class='bx material-icons'>assignment_late</i>
+        <span class="text">
+            {{#with incomplete}}
+            <h3>{{this}}</h3>
+            {{/with}}
+            <p>Incomplete entries today</p>
+        </span>
+    </li>
+    <li>
+        <i style="background: var(--light-orange); color: var(--orange);" class='bx material-icons'>data_thresholding</i>
+        <span class="text">
+            {{#with warnings}}
+            <h3>{{this}}</h3>
+            {{/with}}
+            <p>Threshold warnings today</p>
+        </span>
+    </li>
+</ul>
+
+<div class="table-data">
+    {{#with patient}}
+    <div class="order">
+        <div class="head">
+            <!--					<i class='bx bx-check-square' ></i>-->
+            <h3>Patient Details</h3>
+        </div>
+        
+        
+        <ul class="box-info">
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Full Name</h2>
+                    <h3>{{this.first_name}} {{this.last_name}}</h3>
+                </span>
+                
+            </li>
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Date of sign-up</h2>
+                    <h3>{{formatDateLongYear this.signupdate}}</h3>
+                </span>
+            </li>
+        </ul>
+        <br>
+        <ul class="box-info">
+            
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Phone number</h2>
+                    <h3>{{this.phone}}</h3>
+                </span>
+            </li>
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Email/username</h2>
+                    <h3>{{this.email}}</h3>
+                </span>
+            </li>
+        </ul>
+        <ul class="box-info">
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Address</h2>
+                    <h3>{{this.address}}</h3>
+                </span>
+                
+            </li>
+        </ul>
+        <br>
+        <ul class="box-info">
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Height</h2>
+                    <h3>{{this.height}}</h3>
+                </span>
+            </li>
+            
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Date of Birth</h2>
+                    <h3>{{formatDateLongYear this.dob}}</h3>
+                </span>
+            </li>
+            <li style="background-color:var(--grey);">
+                <span class="text">
+                    <h2>Gender</h2>
+                    <h3>{{this.gender}}</h3>
+                </span>
+            </li>
+        </ul>
+        
+    </div>
+    <div class="todo">
+        <div class="head">
+            <!--					<i class='bx bx-edit-alt'></i>-->
+            <h3>Patient records & thresholds</h3>
+        </div>
+        <ul class="todo-list">
+            
+            {{#each thresholds}}
+            <li class="blueone">
+                <p>{{formatThresholds this.name}}: {{negativeThreshold this.lower}} - {{negativeThreshold this.upper}}</p>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+    {{/with}}
+</div>
+
+<div class="table-data">
+    <div class="order">
+        <div class="head">
+            <!--					<i class='bx bx-check-square' ></i>-->
+            <h3>Patient's Records</h3>
+            <input style="width:40%" type="text" class="input-button-select" id="attentionRequiredInput" onkeyup="attentionRequiredSearch()" placeholder="Search..." title="Type in a name">
+            <a style="color:var(--blue);" href="#"><i class='bx material-icons'>filter_list</i></a>
+        </div>
+        <table id="attentionRequiredTable">
+            <thead>
+                <tr class="header">
+                    <th>Date Added</th>
+                    <th>Record Type</th>
+                    <th>Value</th>
+                    <th>Comment</th>
+                    <th>Warning</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{!-- loops over the data set --}}
+                {{#each records}}
+                <tr {{#highlightErrorRow this.error}} {{/highlightErrorRow}}>
+                    <td data-label="Date Added"><p>{{formatDate created_at}}</p></td>
+                    <td data-label="Record Type"><p>{{record_type}}</p></td>
+                    <td data-label="Value"><p>{{this.value}}</p></td>
+                    <td data-label="Comment"><p>{{previewString this.comment}}</p></td>
+                    <td data-label="Warning"><p>{{this.error}}</p></td>
+                    <td data-label="View"><a href="/clinician/patients?user={{this.user_id}}&record={{this.record_id}}"><i style="color:var(--blue);" class='bx material-icons'>arrow_forward_ios</i></a></td>
+                </tr>
+                {{else}}
+                {{/each}}
+            </tbody>
+        </table>
+        <br>
+        <p>Records may be hidden, scroll if required</p>
+        <img src="/img/bounce-arrow.gif" alt="scroll-down-animation" width="50vw">
+    </div>
+</div>

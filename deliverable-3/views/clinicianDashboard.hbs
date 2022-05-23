@@ -1,0 +1,98 @@
+<div class="head-title">
+	<div class="left">
+		<ul class="breadcrumb">
+			<li>
+				<a class="active generic-button" href="#">Dashboard</a>
+			</li>
+			<li><i class='bx material-icons'>chevron_right</i></li>
+		</ul>
+
+		<br>
+		<h1>Dashboard</h1>
+		{{#with clinician}}
+		<h2>Welcome, {{this.first_name}}.</h2>
+		{{/with}}
+	</div>
+</div>
+
+<ul class="box-info">
+	<li>
+		<i class='bx material-icons'>today</i>
+		<span class="text">
+			<h3>{{getCurrentDate}}</h3>
+			<p>Current Date</p>
+		</span>
+	</li>
+
+	<li>
+		<i class='bx material-icons'>personal_injury</i>
+		<span class="text">
+			{{#with records}}
+			<h3>{{this.length}}</h3>
+			{{/with}}
+			<p>Patients(s)</p>
+		</span>
+	</li>
+
+	<li>
+		<i style="background: var(--light-orange); color: var(--orange);" class='bx material-icons'>chat_bubble</i>
+		<span class="text">
+			{{#with messages}}
+			<h3>{{this}}</h3>
+			{{/with}}
+			<p>Messages(s) Sent</p>
+		</span>
+	</li>
+
+	<li>
+		<i style="background: var(--light-orange); color: var(--orange);" class='bx material-icons'>description</i>
+		<span class="text">
+			{{#with notes}}
+			<h3>{{this}}</h3>
+			{{/with}}
+			<p>Clinician Note(s) created</p>
+		</span>
+	</li>
+</ul>
+
+<div class="table-data">
+	<div class="order">
+		<div class="head">
+			<!--					<i class='bx bx-check-square' ></i>-->
+			<h3>Patient records for today</h3>
+			<input style="width:40%" type="text" class="input-button-select" id="attentionRequiredInput" onkeyup="attentionRequiredSearch()" placeholder="Search..." title="Type in a name">
+			<a style="color:var(--blue);" href="#"><i class='bx material-icons'>filter_list</i></a>
+		</div>
+		<table id="attentionRequiredTable">
+			<thead>
+				<tr class="header">
+					<th>Username</th>
+					<th>Blood Glucose</th>
+					<th>Weight</th>
+					<th>Insulin</th>
+					<th>Exercise</th>
+					<th>Threshold Warning(s)</th>
+					<th>View</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{{!-- loops over the data set --}}
+				{{#each records}}
+				<tr>
+				<td data-label="username"><p>{{this.username}}</p></td>
+				<td data-label="glucose" {{#formatRecord this.glucose}} {{/formatRecord}}><p>{{this.glucose}}</p></td>
+				<td data-label="weight" {{#formatRecord this.weight}} {{/formatRecord}}><p>{{this.weight}}</p></td>
+				<td data-label="insulin" {{#formatRecord this.insulin}} {{/formatRecord}}><p>{{this.insulin}}</p></td>
+				<td data-label="exercise" {{#formatRecord this.exercise}} {{/formatRecord}}><p>{{this.exercise}}</p></td>
+				<td data-label="warning(s)" {{#highlightErrorRow this.error}} {{/highlightErrorRow}}><p>{{this.error}}</p></td>
+				<td data-label="view"><a href="/clinician/patients?user={{this.id}}"><i style="color:var(--blue);" class='bx material-icons'>arrow_forward_ios</i></a></td>
+				</tr>
+				{{/each}}
+			</tbody>
+		</table>
+		<br>
+		<p>Records may be hidden, scroll if required</p>
+		<img src="/img/bounce-arrow.gif" alt="scroll-down-animation" width="50vw">
+	</div>
+</div>
